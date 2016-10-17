@@ -1,11 +1,5 @@
 class Solution(object):
-    def calStr(self, s):
-        t = []
-        for i in s:
-            if i not in t:
-                t.append(i)
-        return len(t)
-
+    """
     def lengthOfLongestSubstring(self, s):
         total = []
         lenSubStra = 0
@@ -33,30 +27,44 @@ class Solution(object):
                 total.append(k)
         lastlenSubStrb = len(total)
         return max(lenSubStra, lastlenSubStra, lenSubStrb, lastlenSubStrb)
+    """
 
-    def alengthOfLongestSubstring(self, s):
+    def lengthOfLongestSubstring(self, s):
         """
         :type s: str
         :rtype: int
         """
-        total = []
-        stringLen = len(s)
+        maxNum = 0
+        substr = ""
+        strLen = len(s)
+        clist = []
+        for c in s:
+            if c not in clist:
+                clist.append(c)
+        cNum = len(clist)
         for i, k in enumerate(s):
-            if k not in total:
-                total.append(k)
-            for j in xrange(i + 1, stringLen):
-                substr = s[i:j + 1]
-                if len(substr) != self.calStr(substr):
+            substr = ""
+            total = []
+            for j in xrange(i, (cNum+i if cNum + i < strLen else strLen)):
+                char = s[j]
+                if char not in total:
+                    total.append(char)
+                    substr += char
+                    strNum = len(substr)
+                    if strNum > maxNum:
+                        maxNum = strNum
+                    if maxNum == cNum:
+                        return maxNum
+                else:
+                    strNum = len(substr)
+                    if strNum > maxNum:
+                        maxNum = strNum
+                    if maxNum == cNum:
+                        return maxNum
                     break
-                if substr not in total:
-                    total.append(s[i:j + 1])
-        a = 0
-        for i in total:
-            if len(i) > a:
-                a = len(i)
-        return a
+        return (maxNum if maxNum > len(substr) else len(substr))
 
 
 if __name__ == "__main__":
-    s = 'dvdf'
+    s = 'pwwkew'
     print Solution().lengthOfLongestSubstring(s)
